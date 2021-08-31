@@ -1,0 +1,19 @@
+{
+  "id": "welcome",
+  "steps": [
+    {
+      "title": "Welcome to PatternFly",
+      "text": "Welcome to this demo PatternFly app. Continue to learn the basics of PatternFly design."
+    },
+    {
+      "title": "Navigation hamburger",
+      "text": "This is the navigation hamburger. Click it to toggle the nav",
+      "selector": "#nav-toggle"
+    },
+    {
+      "title": "Cool cards",
+      "text": "This is a card. Wow.",
+      "selector": ".pf-c-card"
+    }
+  ]
+}

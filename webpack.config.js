@@ -1,24 +1,30 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
-  entry: './src/index.js',
-  output: {
-    filename: 'main.js',
-    path: path.resolve(__dirname, 'dist')
+  entry: {
+    app: './src/index.js',
+    'guided-tours': {
+      import: './src/guided-tours.js',
+      library: {
+        name: 'guidedTours',
+        type: 'umd2'
+      }
+    }
   },
+  mode: 'development',
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.js$/,
         exclude: /node_modules/,
         use: ['babel-loader']
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader']
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
         test: /\.(png|jpg|gif|svg|ttf|eot|woff|woff2)$/,
@@ -33,17 +39,19 @@ module.exports = {
       },
     ]
   },
-  optimization: {
-    runtimeChunk: {
-      name: 'runtime'
-    },
-    concatenateModules: false
-  },
   plugins: [
     new HtmlWebpackPlugin({
       template: 'src/index.html'
     }),
     new MiniCssExtractPlugin(),
-    new BundleAnalyzerPlugin(),
-  ]
+    new CopyPlugin({
+      patterns: [
+        { from: "tours", to: "tours" }
+      ]
+    }),
+    //new BundleAnalyzerPlugin(),
+  ],
+  devServer: {
+    hot: false
+  }
 };
